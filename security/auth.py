@@ -14,6 +14,7 @@ from models.models import User
 
 from connection import get_engine
 from schemas.auth_schemas import Register
+from service.db_utils import post_db
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -56,12 +57,4 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 def register_user(user: Register):
     password = pwt_context.hash(user.senha)
     user_register = User(nome=user.nome, email=user.email, senha=password)
-    with Session(engine) as session:
-        try:
-            session.add(user_register)
-            session.commit()
-
-        except IntegrityError:
-            session.rollback()
-            raise HTTPException(status_code=409, detail="User already registered")
-        session.refresh(user_register)
+    post_db(user_register, "Email already registered")
