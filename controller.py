@@ -20,6 +20,8 @@ app.include_router(despesas_router)
 
 
 origins = [
+    "http://192.168.1.40",
+    "http://192.168.1.83",
     "http://localhost",          # Acesso local
     "http://127.0.0.1",
 ]
