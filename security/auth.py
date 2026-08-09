@@ -7,6 +7,7 @@ from fastapi import HTTPException
 from fastapi.params import Depends
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
+
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -36,23 +37,40 @@ def tokenizer(nome: str, email:str):
 def auth_user(email: str, senha: str):
     with Session(engine) as session:
         user = session.query(User).filter(User.email == email).first()
-        if user.status != "aceito":
-            raise HTTPException(status_code=401, detail="User not allowed")
+
+        if user is None:
+            raise HTTPException(status_code=404, detail="User not found")
         if user and pwt_context.verify(senha, user.senha):
             return user
+        if user.status != "aceito":
+            raise HTTPException(status_code=401, detail="User not allowed")
         return False
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, key, algorithms=["HS256"])
-        nome = payload.get("sub")
-        email = payload.get("email")
-        with Session(engine) as session:
-            user = session.query(User).filter(User.email == email).first()
-            if user is None: raise HTTPException(status_code=401, detail="Could not validate user")
-            return user
     except jwt.InvalidTokenError:
-        raise HTTPException(status_code=401, detail="Could not validate user")
+        raise HTTPException(
+            status_code=401,
+            detail="Could not validate user"
+        )
+
+    email = payload.get("email")
+
+    with Session(engine) as session:
+        user = session.query(User).filter(User.email == email).first()
+
+        if user is None:
+            raise HTTPException(
+                status_code=401,
+                detail="Could not validate user"
+            )
+        if user.status != "aceito":
+            raise HTTPException(
+                status_code=401,
+                detail="User not allowed"
+            )
+        return user
 
 def register_user(user: Register):
     password = pwt_context.hash(user.senha)
