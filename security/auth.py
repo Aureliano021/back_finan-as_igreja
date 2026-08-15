@@ -4,11 +4,10 @@ from datetime import datetime, timedelta, timezone
 import jwt
 from dotenv import load_dotenv
 from fastapi import HTTPException
-from fastapi.params import Depends
+from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from models.models import User
