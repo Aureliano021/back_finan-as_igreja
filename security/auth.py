@@ -44,7 +44,7 @@ def auth_user(email: str, senha: str):
         if user and pwt_context.verify(senha, user.senha):
             return user
         else:
-            return HTTPException(status_code=401, detail="invalid credentials")
+            raise HTTPException(status_code=401, detail="invalid credentials")
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     try:

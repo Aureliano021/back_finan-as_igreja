@@ -14,7 +14,7 @@ from security.auth import get_current_user
 from service.db_utils import post_db, update_db, delete_db
 
 
-router = APIRouter(prefix="/ofertas", tags=["ofertas"], dependencies=[Depends(get_current_user())])
+router = APIRouter(prefix="/ofertas", tags=["ofertas"], dependencies=[Depends(get_current_user)])
 
 @router.get("")
 async def get_ofertas():

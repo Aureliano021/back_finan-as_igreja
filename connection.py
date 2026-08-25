@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 
 load_dotenv()
 
-async def get_engine():
+def get_engine():
     user = os.getenv("DB_USER")
     password = quote_plus(os.getenv("DB_PASSWORD"))
     host = os.getenv("DB_HOST")
