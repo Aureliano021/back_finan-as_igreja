@@ -1,13 +1,11 @@
 from starlette.responses import JSONResponse
 
-from connection import get_engine
 from schemas.auth_schemas import Login, Register
 
 from fastapi import APIRouter, HTTPException
 
-from security.auth import pwt_context, tokenizer, auth_user, register_user
+from security.auth import tokenizer, auth_user, register_user
 
-engine = get_engine()
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

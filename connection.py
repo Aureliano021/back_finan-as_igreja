@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 
 load_dotenv()
 
-def get_engine():
+async def get_engine():
     user = os.getenv("DB_USER")
     password = quote_plus(os.getenv("DB_PASSWORD"))
     host = os.getenv("DB_HOST")
@@ -15,3 +15,5 @@ def get_engine():
     url = f"postgresql://{user}:{password}@{host}:{port}/{database}"
     engine = create_engine(url)
     return engine
+
+engine = get_engine()

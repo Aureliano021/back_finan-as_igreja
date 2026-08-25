@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: igreja_postgres
+    restart: always
+    network_mode: host
+    ipc: host
+    environment:
+      POSTGRES_DB: bi_learning
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Tumiritinga2226
+    volumes:
+      - ./postgress/data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      network: host
+    container_name: igreja_backend
+    restart: always
+    network_mode: host
+    ipc: host
+    environment:
+      - DB_HOST=127.0.0.1
+      - DB_PORT=5432
+      - DB_NAME=bi_learning
+      - DB_USER=postgres
+      - DB_PASSWORD=Tumiritinga2226
+      - SECRET_KEY=g85uEUYMECeoeRa4M/uJj9/BdKr521N0SdBuuZ9cqgQ=
+      - ALGORITHM=HS256
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./frontend/igreja-financas-fe
+      dockerfile: Dockerfile
+      network: host
+    container_name: igreja_frontend
+    restart: always
+    network_mode: host
+    ipc: host

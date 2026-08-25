@@ -18,7 +18,7 @@ def post_db(object_data, message_error):
                                 detail=message_error)
         session.refresh(object_data)
 
-def put_db(object_id: int, object_data, table_db, message_error):
+def update_db(object_id: int, object_data, table_db, message_error):
     with Session(engine) as session:
         try:
             object_db = session.get(table_db, object_id)

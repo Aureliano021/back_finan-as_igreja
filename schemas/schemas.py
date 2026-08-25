@@ -1,26 +1,28 @@
+import decimal
 from datetime import date
 from typing import Optional
 
+from decimal import Decimal
 from pydantic import BaseModel
 
 class DespesaCreate(BaseModel):
     nome: str
     data: date
-    valor: int
+    valor: Decimal
 
 class DespesaUpdate(BaseModel):
     nome: Optional[str] = None
     data: Optional[date] = None
-    valor: Optional[float] = None
+    valor: Optional[Decimal] = None
 
 class DizimoCreate(BaseModel):
     membro_id: int
-    valor: float
+    valor: Decimal
     data: date
 
 class DizimoUpdate(BaseModel):
     membro_id: Optional[int] = None
-    valor: Optional[float] = None
+    valor: Optional[Decimal] = None
     data: Optional[date] = None
 
 class MembroCreate(BaseModel):
@@ -38,11 +40,11 @@ class MembroUpdate(BaseModel):
     uniao_estavel: Optional[bool] = None
 
 class OfertasCreate(BaseModel):
-    valor: float
+    valor: Decimal
     data: date
 
 class OfertasUpdate(BaseModel):
-    valor: Optional[float] = None
+    valor: Optional[Decimal] = None
     data: Optional[date] = None
 
 

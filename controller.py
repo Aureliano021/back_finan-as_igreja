@@ -33,3 +33,7 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
+
+app.get('/health')
+def health():
+    return {'status': 'ok'}

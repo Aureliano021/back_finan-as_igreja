@@ -8,12 +8,11 @@ from starlette.responses import JSONResponse
 
 from models.models import User, Dizimos
 
-from connection import get_engine
+from connection import engine
 from schemas.schemas import DizimoCreate, DizimoUpdate
 from security.auth import get_current_user
-from service.db_utils import post_db, put_db, delete_db
+from service.db_utils import post_db, update_db, delete_db
 
-engine = (get_engine())
 router = APIRouter(prefix="/dizimos", tags=["dizimos"], dependencies=[Depends(get_current_user)])
 
 @router.get("")
@@ -28,9 +27,9 @@ async def post_dizimos(dizimo_create: DizimoCreate):
     post_db(dizimo, "Dizimo create error")
     return JSONResponse(status_code=HTTPStatus.CREATED, content={"message": "Dizimo created"})
 
-@router.put("/{dizimo_id}")
+@router.patch("/{dizimo_id}")
 async def put_dizimos(dizimo_id: int, dizimo_update: DizimoUpdate):
-    put_db(dizimo_id, dizimo_update, Dizimos, "Dizimo update error")
+    update_db(dizimo_id, dizimo_update, Dizimos, "Dizimo update error")
     return JSONResponse(status_code=HTTPStatus.OK, content={"message": "Dizimo updated"})
 
 @router.delete("/{dizimo_id}")

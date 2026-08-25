@@ -39,11 +39,12 @@ def auth_user(email: str, senha: str):
 
         if user is None:
             raise HTTPException(status_code=404, detail="User not found")
-        if user and pwt_context.verify(senha, user.senha):
-            return user
         if user.status != "aceito":
             raise HTTPException(status_code=401, detail="User not allowed")
-        return False
+        if user and pwt_context.verify(senha, user.senha):
+            return user
+        else:
+            return HTTPException(status_code=401, detail="invalid credentials")
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
     try:

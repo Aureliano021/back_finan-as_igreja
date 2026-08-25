@@ -1,7 +1,7 @@
 from datetime import datetime
 from datetime import date
 
-from psycopg2._psycopg import Decimal
+from decimal import Decimal
 from sqlalchemy import String, Date, Numeric, ForeignKey, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import expression
@@ -45,7 +45,7 @@ class Ofertas(Base):
     __tablename__ = "ofertas"
     id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
     valor: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
-    data: Mapped[date] = mapped_column(nullable=False)
+    data: Mapped[date] = mapped_column( Date ,nullable=False)
 
 class Logs(Base):
     __tablename__ = "logs"
