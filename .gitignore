@@ -1,3 +1,7 @@
 igreja-financas-fe/
 
 .env
+__pycache__/
+*.pyc
+.pytest_cache/
+out/

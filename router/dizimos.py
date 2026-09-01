@@ -6,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 
-from models.models import User, Dizimos
+from models.models import Dizimos
 
 from connection import engine
 from schemas.schemas import DizimoCreate, DizimoUpdate

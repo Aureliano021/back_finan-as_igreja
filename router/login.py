@@ -1,5 +1,8 @@
+from fastapi.params import Depends
+from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 
+from connection import get_db
 from schemas.auth_schemas import Login, Register
 
 from fastapi import APIRouter, HTTPException
@@ -10,8 +13,8 @@ from security.auth import tokenizer, auth_user, register_user
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/login")
-def login(user_login: Login):
-    user = auth_user(user_login.email, user_login.senha)
+def login(user_login: Login, session = Depends(get_db)):
+    user = auth_user(session, user_login.email, user_login.senha)
     if user is False:
         raise HTTPException(status_code=401, detail="Invalid Credentials")
 

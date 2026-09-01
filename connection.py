@@ -2,6 +2,7 @@ import os
 from urllib.parse import quote_plus
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 load_dotenv()
 
@@ -13,7 +14,11 @@ def get_engine():
     database = os.getenv("DB_NAME")
 
     url = f"postgresql://{user}:{password}@{host}:{port}/{database}"
-    engine = create_engine(url)
-    return engine
+    engine_db = create_engine(url)
+    return engine_db
 
 engine = get_engine()
+
+def get_db():
+    with Session(engine) as session:
+        yield session
