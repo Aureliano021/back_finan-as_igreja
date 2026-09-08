@@ -1,6 +1,3 @@
-import json
-
-
 def test_cria_membro_com_sucesso(active_user, client_test, token_admin):
     response = client_test.post(
         "/membro",

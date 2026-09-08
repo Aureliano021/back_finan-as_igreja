@@ -26,8 +26,8 @@ def login(user_login: Login, session = Depends(get_db)):
     })
 
 @router.post("/register")
-async def register(user_register: Register):
-    register_user(user_register)
+async def register(user_register: Register, session: Session = Depends(get_db)):
+    register_user(user_register, session)
     return JSONResponse(status_code=201, content={
         "message": "register successful, wait for authorization."
     })

@@ -1,8 +1,8 @@
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from connection import get_engine, get_db
+from connection import get_engine
 
 engine = get_engine()
 

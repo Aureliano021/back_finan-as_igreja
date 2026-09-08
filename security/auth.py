@@ -71,7 +71,13 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_
         )
     return user
 
-def register_user(user: Register):
+def register_user(user: Register, session: Session):
+    senha = user.senha
+    tamanho = len(senha)
+
+    if tamanho <= 7:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters long")
+
     password = pwt_context.hash(user.senha)
     user_register = User(nome=user.nome, email=user.email, senha=password)
-    post_db(user_register, "Email already registered")
+    post_db(session, user_register, "Email already registered")
