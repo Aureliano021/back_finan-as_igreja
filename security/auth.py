@@ -1,5 +1,6 @@
 import os
 from datetime import datetime, timedelta, timezone
+from http import HTTPStatus
 
 import jwt
 from dotenv import load_dotenv
@@ -46,7 +47,7 @@ def auth_user(session: Session, email: str, senha: str):
     else:
         raise HTTPException(status_code=401, detail="invalid credentials")
 
-def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme), ):
+def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, key, algorithms=["HS256"])
     except jwt.InvalidTokenError:
@@ -81,3 +82,9 @@ def register_user(user: Register, session: Session):
     password = pwt_context.hash(user.senha)
     user_register = User(nome=user.nome, email=user.email, senha=password)
     post_db(session, user_register, "Email already registered")
+
+def is_admin(user: User):
+    if not user.is_admin: raise HTTPException(
+        status_code=HTTPStatus.FORBIDDEN,
+        detail="is not admin"
+    )

@@ -14,7 +14,7 @@ from controller import app
 from security.auth import tokenizer
 
 user = os.getenv("DB_USER")
-password = quote_plus(os.getenv("DB_PASSWORD"))
+password = quote_plus(os.environ["DB_PASSWORD"])
 host = os.getenv("DB_HOST")
 port = os.getenv("DB_PORT")
 
@@ -40,7 +40,8 @@ def active_user(db):
         nome="admin",
         email="admin@admin.com",
         senha="senha123",
-        status="aceito"
+        status="aceito",
+        is_admin=1
     )
     db.add(user_admin)
     db.commit()
