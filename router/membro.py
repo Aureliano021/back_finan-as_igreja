@@ -21,6 +21,7 @@ router = APIRouter(prefix="/membro")
 async def get_membro_by_id(
         membro_id: int,
         db: Annotated[Session, Depends(get_db)],
+        user: Annotated[User, Depends(get_current_user)]
 ):
     result_membro = db.execute(select(Membro).where(Membro.id == membro_id)).scalar()
     if result_membro is None:

@@ -13,10 +13,21 @@ from models import models
 from controller import app
 from security.auth import tokenizer
 
-user = os.getenv("DB_USER")
-password = quote_plus(os.environ["DB_PASSWORD"])
-host = os.getenv("DB_HOST")
-port = os.getenv("DB_PORT")
+
+target = os.getenv("DB_TARGET", "local").lower()
+
+if target == "celular" or target == "server":
+    user = os.getenv("DB_SERVER_USER")
+    password = quote_plus(os.getenv("DB_SERVER_PASSWORD", ""))
+    host = os.getenv("DB_SERVER_HOST")
+    port = os.getenv("DB_SERVER_PORT")
+    database = os.getenv("DB_SERVER_NAME")
+else:
+    user = os.getenv("DB_LOCAL_USER")
+    password = quote_plus(os.getenv("DB_LOCAL_PASSWORD", ""))
+    host = os.getenv("DB_LOCAL_HOST")
+    port = os.getenv("DB_LOCAL_PORT")
+    database = os.getenv("DB_LOCAL_NAME")
 
 url = f"postgresql://{user}:{password}@{host}:{port}/igreja_teste"
 

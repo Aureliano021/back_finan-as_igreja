@@ -17,7 +17,10 @@ from service.db_utils import post_db, delete_db, DBUpdater
 router = APIRouter(prefix="/cargos")
 
 @router.get("")
-def get_cargos(session: Annotated[Session, Depends(get_db)]):
+def get_cargos(
+        session: Annotated[Session, Depends(get_db)],
+        user: Annotated[User, Depends(get_current_user)]
+):
     cargos = session.query(Cargos).all()
     return cargos
 

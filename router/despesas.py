@@ -19,6 +19,7 @@ router = APIRouter(prefix="/despesas", tags=["despesas"])
 @router.get("")
 async def get_despesas(
         session: Annotated[Session, Depends(get_db)],
+        user: Annotated[User, Depends(get_current_user)]
 ):
 
     result_despesas = session.execute(select(Despesas)).scalars().all()

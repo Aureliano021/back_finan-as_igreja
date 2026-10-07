@@ -20,10 +20,12 @@ router = APIRouter(prefix="/users")
 @router.get("/")
 def get_users(
         session: Annotated[Session, Depends(get_db)],
+        user: Annotated[User, Depends(get_current_user)]
 ):
     users = session.execute(select(User)).scalars().all()
     return users
 
+@router.patch("/{user_id}")
 def patch_user(
         user_id: int,
         user_update: UserUpdate,
@@ -34,6 +36,7 @@ def patch_user(
     update_db(session, user_id,user_update, User, "User update error")
     return JSONResponse(status_code=HTTPStatus.OK, content={"message": "User updated successfully"})
 
+@router.delete("/{user_id}")
 def delete_user(
         user_id: int,
         session: Annotated[Session, Depends(get_db)],
