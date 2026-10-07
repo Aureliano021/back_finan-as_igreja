@@ -100,7 +100,7 @@ async def put_escala(
         user: Annotated[User, Depends(get_current_user)]
 ):
     (DBUpdater(session, escala_id, escala, Escala, "Escala update error")
-     .many(Escala, "itens")
+     .many(EscalaItem, "itens")
      .update())
 
     return JSONResponse(status_code=HTTPStatus.OK, content={"message": "Escala atualizada com sucesso"})
