@@ -8,6 +8,8 @@ from router.login import router as login_router
 from router.ofertas import router as ofertas_router
 from router.dizimos import router as dizimos_router
 from router.despesas import router as despesas_router
+from router.cargos import router as cargos_router
+from router.escala import router as escala_router
 
 engine = get_engine()
 app = fastapi.FastAPI()
@@ -17,6 +19,8 @@ app.include_router(login_router)
 app.include_router(ofertas_router)
 app.include_router(dizimos_router)
 app.include_router(despesas_router)
+app.include_router(cargos_router)
+app.include_router(escala_router)
 
 
 origins = [

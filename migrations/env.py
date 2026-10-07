@@ -31,11 +31,20 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
 
-user = os.getenv("DB_USER")
-password = quote_plus(os.getenv("DB_PASSWORD"))
-host = os.getenv("DB_HOST")
-port = os.getenv("DB_PORT")
-database = os.getenv("DB_NAME")
+target = os.getenv("DB_TARGET", "local").lower()
+
+if target == "celular" or target == "server":
+    user = os.getenv("DB_SERVER_USER")
+    password = quote_plus(os.getenv("DB_SERVER_PASSWORD", ""))
+    host = os.getenv("DB_SERVER_HOST")
+    port = os.getenv("DB_SERVER_PORT")
+    database = os.getenv("DB_SERVER_NAME")
+else:
+    user = os.getenv("DB_LOCAL_USER")
+    password = quote_plus(os.getenv("DB_LOCAL_PASSWORD", ""))
+    host = os.getenv("DB_LOCAL_HOST")
+    port = os.getenv("DB_LOCAL_PORT")
+    database = os.getenv("DB_LOCAL_NAME")
 
 db_url = f"postgresql://{user}:{password}@{host}:{port}/{database}"
 

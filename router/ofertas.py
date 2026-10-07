@@ -20,9 +20,7 @@ router = APIRouter(prefix="/ofertas", tags=["ofertas"])
 @router.get("")
 async def get_ofertas(
         session: Annotated[Session, Depends(get_db)],
-        user: Annotated[User, Depends(get_current_user)]
 ):
-    is_admin(user)
     result_oferta = session.execute(select(Ofertas)).scalars().all()
     return result_oferta
 

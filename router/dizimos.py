@@ -21,9 +21,7 @@ router = APIRouter(prefix="/dizimos", tags=["dizimos"])
 @router.get("")
 async def get_dizimos(
         session: Annotated[Session, Depends(get_db)],
-        user: Annotated[User, Depends(get_current_user)]
 ):
-    is_admin(user)
     result_dizimo = session.execute(select(Dizimos)).scalars().all()
     return result_dizimo
 

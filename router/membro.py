@@ -17,12 +17,21 @@ from service.db_utils import post_db, update_db, delete_db
 
 router = APIRouter(prefix="/membro")
 
+@router.get("/{membro_id}")
+async def get_membro_by_id(
+        membro_id: int,
+        db: Annotated[Session, Depends(get_db)],
+):
+    result_membro = db.execute(select(Membro).where(Membro.id == membro_id)).scalar()
+    if result_membro is None:
+        return JSONResponse(status_code=HTTPStatus.NOT_FOUND, content={"message": "Membro not found"})
+    return result_membro
+
 @router.get("")
 async def get_membros(
         db: Annotated[Session, Depends(get_db)],
-        user: Annotated[User, Depends(get_current_user)]
 ):
-    is_admin(user)
+
     result_membros = db.execute(select(Membro)).scalars().all()
     return result_membros
 
